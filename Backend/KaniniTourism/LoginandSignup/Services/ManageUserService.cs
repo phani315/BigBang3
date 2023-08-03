@@ -66,7 +66,7 @@ namespace LoginandSignup.Services
         {
             UserDTO myUser = null;
             var hmac = new HMACSHA512();
-            user.Users.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.PasswordClear ?? "1234"));
+            user.Users.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.PasswordClear ));
             user.Users.PasswordKey = hmac.Key;
             user.Users.Role = "Admin";
 

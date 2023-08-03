@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TourPackage.Exceptions;
 using System;
+using Microsoft.AspNetCore.Cors;
 
 namespace TourPackage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CORS")]
+
     public class ExclusionsController : ControllerBase
     {
         private readonly IRepo<Exclusions, int> _exclusionsRepository;

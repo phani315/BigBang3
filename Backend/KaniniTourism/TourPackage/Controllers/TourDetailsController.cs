@@ -2,11 +2,14 @@
 using TourPackage.Models;
 using TourPackage.Interfaces;
 using  TourPackage.Interfaces;
+using Microsoft.AspNetCore.Cors;
 
 namespace TourPackage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CORS")]
+
     public class TourDetailsController : ControllerBase
     {
         private readonly IRepo<TourDetails, int> _tourDetailsRepository;

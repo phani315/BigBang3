@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TourPackage.Models.Context;
 using TourPackage.Interfaces;
+using TourPackage.Exceptions;
 
 namespace TourPackage.Models
 {
@@ -21,7 +22,7 @@ namespace TourPackage.Models
             if (_context.TourDetails != null)
             {
 
-                var tourdetails= await _context.TourDetails.Include(u=>u.TourInclusion).Include(s=>s.TourExclusion).Include(t=>t.TourDate).Include(r=>r.TourActivities).ToListAsync();
+                var tourdetails= await _context.TourDetails.Include(u=>u.TourInclusion).Include(s=>s.TourExclusion).Include(t=>t.TourDate).Include(d=>d.TourDestination).ToListAsync();
                 return tourdetails;
                 
             }
@@ -35,7 +36,26 @@ namespace TourPackage.Models
 
         public async Task<TourDetails?> Get(int id)
         {
-            return await _context.TourDetails.FirstOrDefaultAsync(s=>s.TourId==id);
+
+            if (_context.TourDetails != null)
+            {
+                var tourdetails = _context.TourDetails.FirstOrDefault(u => u.TourId == id);
+                if (tourdetails != null)
+                {
+                    return tourdetails;
+
+                }
+                else
+                {
+                    throw new TourDetailsNotFoundException("TourDetails not found");
+
+
+                }
+            }
+            else
+            {
+                throw new DatabaseEmptyException("Database is empty");
+            }
         }
       
         public async Task<TourDetails> Add(TourDetails tourDetails)
@@ -55,13 +75,13 @@ namespace TourPackage.Models
                 tourdetails.TourDescription= updatedtourDetails.TourDescription;
                 tourdetails.TourPrice = updatedtourDetails.TourPrice;
                 tourdetails.MaxCapacity = updatedtourDetails.MaxCapacity;
-                tourdetails.BookedCapacity = updatedtourDetails.BookedCapacity;
+                tourdetails.BookedNoOfSeats = updatedtourDetails.BookedNoOfSeats;
                 tourdetails.Availability = updatedtourDetails.Availability;  
                 tourdetails.Noofdays = updatedtourDetails.Noofdays;
-                
-               
-          
-
+            }
+            else
+            {
+                throw new TourDetailsNotFoundException("Tour Details not found");
             }
 
             await _context.SaveChangesAsync();

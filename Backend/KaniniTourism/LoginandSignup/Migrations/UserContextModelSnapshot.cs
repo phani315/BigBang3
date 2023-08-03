@@ -28,7 +28,6 @@ namespace LoginandSignup.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -39,12 +38,7 @@ namespace LoginandSignup.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("AdminId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Admins");
                 });
@@ -152,7 +146,9 @@ namespace LoginandSignup.Migrations
                 {
                     b.HasOne("LoginandSignup.Models.User", "Users")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Users");
                 });

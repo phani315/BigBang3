@@ -2278,11 +2278,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\phani\\Desktop\\BigBang3\\Backend\\KaniniTourism\\TourPackage\\TourPackage.csproj",
+      "projectUniqueName": "C:\\Users\\phani\\Desktop\\BigBang3Git\\Backend\\KaniniTourism\\TourPackage\\TourPackage.csproj",
       "projectName": "TourPackage",
-      "projectPath": "C:\\Users\\phani\\Desktop\\BigBang3\\Backend\\KaniniTourism\\TourPackage\\TourPackage.csproj",
+      "projectPath": "C:\\Users\\phani\\Desktop\\BigBang3Git\\Backend\\KaniniTourism\\TourPackage\\TourPackage.csproj",
       "packagesPath": "C:\\Users\\phani\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\phani\\Desktop\\BigBang3\\Backend\\KaniniTourism\\TourPackage\\obj\\",
+      "outputPath": "C:\\Users\\phani\\Desktop\\BigBang3Git\\Backend\\KaniniTourism\\TourPackage\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

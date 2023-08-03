@@ -34,12 +34,24 @@ namespace TourPackage.Models
         {
             if (_context.Destinations != null)
             {
-                return await _context.Destinations.FindAsync(id);
+                var tourdestinations = _context.Destinations.FirstOrDefault(u => u.DestinationId == id);
+                if (tourdestinations != null)
+                {
+                    return tourdestinations;
+
+                }
+                else
+                {
+                    throw new TourDestinationNotFoundException("Tour Destination not found");
+
+
+                }
             }
             else
             {
                 throw new DatabaseEmptyException("Database is empty");
             }
+
         }
 
         public async Task<Destination> Add(Destination destination)

@@ -22,6 +22,13 @@ namespace TourPackage
             {
                 opts.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
             });
+            builder.Services.AddCors(opts =>
+            {
+                opts.AddPolicy("CORS", options =>
+                {
+                    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
 
 
 
@@ -43,7 +50,7 @@ namespace TourPackage
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("CORS");
             app.UseAuthorization();
 
 

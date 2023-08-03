@@ -1,5 +1,4 @@
-:root {
-    --primary-color: #4EA685;
+/*:root {
     --secondary-color: #57B894;
     --black: #000000;
     --white: #ffffff;
@@ -218,7 +217,7 @@ body {
 }
 
 /* BACKGROUND */
-
+/*
 .container::before {
     content: "";
     position: absolute;
@@ -245,7 +244,7 @@ body {
     right: 50%;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE *//*
 
 @media only screen and (max-width: 425px) {
 
@@ -263,7 +262,7 @@ body {
     /* .container.sign-in .col.sign-up {
         transform: translateY(100%);
     } */
-
+/*
     .container.sign-in .col.sign-in,
     .container.sign-up .col.sign-up {
         transform: translateY(0);
@@ -282,14 +281,14 @@ body {
     .col {
         width: 50%;
         position: relative; /* Change position to relative */
-        padding: 2rem;
+    /*    padding: 2rem;
         background-color: var(--white);
         border-top-left-radius: 2rem;
         border-top-right-radius: 2rem;
         /* Remove transform: translateY(100%); */
-        transition: 1s ease-in-out;
+    /*    transition: 1s ease-in-out;
         height: 80vh; /* Add height to match form-wrapper's height */
-      }
+    /*  }
       
 
     .row {
@@ -319,7 +318,7 @@ body {
 }
 
 /* Login.css */
-
+/*
 .switch {
     position: relative;
     display: inline-block;
@@ -386,6 +385,6 @@ body {
     overflow-y: auto;
     height: 80vh;
     display: flex; /* Add this line to use flexbox */
-    flex-direction: column; /* Add this line to stack the children vertically */
-    align-items: center; /* Add this line to center the children horizontally */
-  }
+   /* flex-direction: column; /* Add this line to stack the children vertically */
+  /*  align-items: center; /* Add this line to center the children horizontally */
+  /*}*/

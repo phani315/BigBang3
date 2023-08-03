@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const [isSignIn, setIsSignIn] = useState(true);
+  const navigate = useNavigate();
+
   const [registrationType, setRegistrationType] = useState("travel_agent");
+  
+  const [errors, setErrors] = useState({});
+  var [error, seterror] = useState(null);
   const [TravelAgent, setTravelAgent] = useState({
     "users": {
       "email": ""
@@ -57,6 +66,59 @@ function Login() {
       }
     }
   };
+
+  
+  var submitThis = () => {
+
+    fetch('http://localhost:5292/api/Login/Login', {
+      "method": "POST",
+      headers: {
+        "accept": "text/plain",
+        "Content-Type": 'application/json'
+      },
+      "body": JSON.stringify({ ...user, "user": {} })
+    })
+      .then(async (data) => {
+        console.log(user.email,user.password)
+        if (data.status == 400) {
+          alert("invalid credentials")
+          seterror("invalid")
+          console.log("error");
+        }
+        var myData = await data.json();
+        localStorage.setItem('token', myData.token)
+        if (myData.role.toLowerCase() === 'admin') {
+          localStorage.setItem('email', user.email);
+          navigate('/AdminDashboard');
+          alert("login successful");
+        } else if (myData.role.toLowerCase() === 'traveller') {
+          // navigate('/patientlandingpage');
+        } else if (myData.role.toLowerCase() === 'travelagent') {
+          localStorage.setItem('userId', myData.userId);
+          // navigate('/doctorlandingpage');
+        }
+        sessionStorage.setItem('role', myData.role)
+
+        console.log(myData)
+      }).catch((err) => {
+        console.log(err.error)
+      })
+
+  }
+  useEffect(() => {
+    let ignore = false;
+
+    if (!ignore) removingLocalStorage()
+    return () => { ignore = true; }
+  }, []);
+
+
+  var removingLocalStorage = () => {
+    localStorage.clear("token");
+    localStorage.clear("role");
+    localStorage.clear("userId");
+
+  }
 
   return (
     <div id="container" className={`container ${isSignIn ? "sign-in" : "sign-up"}`}>
@@ -135,13 +197,13 @@ function Login() {
             <form className="form sign-in" onSubmit={handleSubmit}>
               <div className="input-group">
                 <i className="bx bxs-user"></i>
-                <input type="text" placeholder="email" value={user.email} onChange={(e) => setUser(e.target.value)} />
+                <input type="text" placeholder="email" value={user.email || ""} onChange={(e) => setUser({...user,email: e.target.value})} />
               </div>
               <div className="input-group">
                 <i className="bx bxs-lock-alt"></i>
-                <input type="password" placeholder="Password" value={user.password} onChange={(e) => setUser(e.target.value)} />
+                <input type="password" placeholder="Password" value={user.password || ""} onChange={(e) => setUser({...user.password,password:e.target.value})} />
               </div>
-              <button type="submit">Sign in</button>
+              <button type="submit" onClick={submitThis}>Sign in</button>
               <p>
                 <b>Forgot password?</b>
               </p>

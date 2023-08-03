@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using TourPackage.Models;
 using TourPackage.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 namespace TourPackage.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [EnableCors("CORS")]
+
     public class TourDateController : ControllerBase
     {
         private readonly IRepo<TourDate, int> _tourDateRepository;

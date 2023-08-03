@@ -1,0 +1,14 @@
+.container {
+    display: flex; 
+  }
+  
+  .destinations-container {
+    flex: 4; 
+    padding: 20px;
+    background-color: #e91616;
+  }
+  
+  .tour-packages {
+    flex: 5;
+  }
+  

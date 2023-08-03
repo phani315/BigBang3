@@ -32,49 +32,30 @@ namespace TourPackage.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("DestinationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("SpotDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int>("TravelAgentId")
+                        .HasColumnType("int");
 
                     b.HasKey("DestinationId");
 
                     b.ToTable("Destinations");
-                });
-
-            modelBuilder.Entity("TourActivities", b =>
-                {
-                    b.Property<int>("ActivityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActivityId"), 1L, 1);
-
-                    b.Property<string>("ActivityDescription")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("DayNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TourId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ActivityId");
-
-                    b.HasIndex("TourId");
-
-                    b.ToTable("TourActivities");
                 });
 
             modelBuilder.Entity("TourDate", b =>
@@ -109,11 +90,29 @@ namespace TourPackage.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ActivityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActivityType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DayNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DestinationActivity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DestinationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Destinationimage")
+                    b.Property<string>("DestinationImage")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EventTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TourId")
                         .HasColumnType("int");
@@ -181,9 +180,13 @@ namespace TourPackage.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ExclusionId"), 1L, 1);
 
-                    b.Property<string>("ExclusionDescriptionn")
+                    b.Property<string>("ExclusionDescription")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("TravelAgentId")
+                        .HasColumnType("int");
 
                     b.HasKey("ExclusionId");
 
@@ -200,7 +203,11 @@ namespace TourPackage.Migrations
 
                     b.Property<string>("InclusionDescriptionn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("TravelAgentId")
+                        .HasColumnType("int");
 
                     b.HasKey("InclusionId");
 
@@ -218,7 +225,7 @@ namespace TourPackage.Migrations
                     b.Property<bool>("Availability")
                         .HasColumnType("bit");
 
-                    b.Property<int>("BookedCapacity")
+                    b.Property<int>("BookedNoOfSeats")
                         .HasColumnType("int");
 
                     b.Property<int>("MaxCapacity")
@@ -256,17 +263,6 @@ namespace TourPackage.Migrations
                     b.HasKey("TourId");
 
                     b.ToTable("TourDetails");
-                });
-
-            modelBuilder.Entity("TourActivities", b =>
-                {
-                    b.HasOne("TourPackage.Models.TourDetails", "TourDetails")
-                        .WithMany("TourActivities")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TourDetails");
                 });
 
             modelBuilder.Entity("TourDate", b =>
@@ -339,8 +335,6 @@ namespace TourPackage.Migrations
 
             modelBuilder.Entity("TourPackage.Models.TourDetails", b =>
                 {
-                    b.Navigation("TourActivities");
-
                     b.Navigation("TourDate");
 
                     b.Navigation("TourDestination");

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "H4Ri88/LZLnbm7Izq6FD2cJo5g6LfP0xBiWAfYN3J9f8+0/DqYzL2I+71iwNFBDpk2TBGju03juxy+Y7Y+oyzA==",
+  "dgSpecHash": "XkxWZQLLPFClcIWuwBLICkgdfE3cFrbiue+youqttJGNWfdkx2yrIvzfoJjFOC7H/mtwbLrujJ2ZXvXsAjPMDQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\phani\\Desktop\\BigBang3\\Backend\\KaniniTourism\\LoginandSignup\\LoginandSignup.csproj",
+  "projectFilePath": "C:\\Users\\phani\\Desktop\\BigBang3Git\\Backend\\KaniniTourism\\LoginandSignup\\LoginandSignup.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\phani\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\phani\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.20\\microsoft.aspnetcore.authentication.jwtbearer.6.0.20.nupkg.sha512",

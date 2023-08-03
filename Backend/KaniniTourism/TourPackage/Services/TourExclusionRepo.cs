@@ -32,6 +32,7 @@ public class TourExclusionRepo : IRepo<TourExclusion, int>
 
     public async Task<TourExclusion> Get(int id)
     {
+        
         return await _context.TourExclusions.FirstOrDefaultAsync(te => te.Id == id);
     }
 

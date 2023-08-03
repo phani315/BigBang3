@@ -30,11 +30,22 @@ namespace TourPackage.Models
             }
         }
 
-        public async Task<Exclusions> Get(int id)
+        public async Task<Exclusions?> Get(int id)
         {
             if (_context.Exclusions != null)
             {
-                return await _context.Exclusions.FindAsync(id);
+                var exclusion = _context.Exclusions.FirstOrDefault(u=>u.ExclusionId==id);
+                if (exclusion != null)
+                {
+                    return exclusion;
+
+                }
+                else
+                {
+                    throw new ExclusionNotFoundException("exclusion not found");
+
+
+                }
             }
             else
             {
@@ -64,7 +75,7 @@ namespace TourPackage.Models
                 if (existingExclusion != null)
                 {
                     existingExclusion.ExclusionId = exclusion.ExclusionId;
-                    existingExclusion.ExclusionDescriptionn = exclusion.ExclusionDescriptionn;
+                    existingExclusion.ExclusionDescription = exclusion.ExclusionDescription;
                     await _context.SaveChangesAsync();
                     return exclusion;
                 }

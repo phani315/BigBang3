@@ -65,8 +65,7 @@ public class TourDestinationRepo :IRepo<TourDestination,int>
         if (_context.TourDestinations == null)
         {
             tourDestination.DestinationId = tourdestination.DestinationId;
-            tourDestination.Destinationimage = tourdestination.Destinationimage;
-           
+            tourDestination.DestinationImage = tourdestination.DestinationImage;
             _context.SaveChanges();
             return tourDestination;
 

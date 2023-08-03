@@ -7,16 +7,18 @@ public class TourExclusion
 {
     [Key]
     public int Id { get; set; }
-    [Required]
+
+    [Required(ErrorMessage = "TourId is required.")]
     public int TourId { get; set; }
+
     [ForeignKey("TourId")]
     [JsonIgnore]
     public TourDetails? TourDetails { get; set; }
-    [Required]
+
+    [Required(ErrorMessage = "ExclusionId is required.")]
     public int ExclusionId { get; set; }
+
     [ForeignKey("ExclusionId")]
     [JsonIgnore]
-    public Exclusions? Exclusions{ get; set; }
-
-
+    public Exclusions? Exclusions { get; set; }
 }

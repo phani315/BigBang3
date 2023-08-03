@@ -40,8 +40,8 @@ namespace TourPackage.Models
         [Range(1, 100, ErrorMessage = "Maximum capacity must be a positive integer.")]
         public int MaxCapacity { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Booked capacity must be a non-negative integer.")]
-        public int BookedCapacity { get; set; }
+        [Range(0, 100, ErrorMessage = "Booked capacity must be a non-negative integer.")]
+        public int BookedNoOfSeats { get; set; }
 
         [Required(ErrorMessage = "Availability is required.")]
         public bool Availability { get; set; }
@@ -51,7 +51,6 @@ namespace TourPackage.Models
 
         public ICollection<TourInclusion> TourInclusion { get; set; }
         public ICollection<TourExclusion> TourExclusion { get; set; }
-        public ICollection<TourActivities> TourActivities { get; set; }
 
     }
 }
