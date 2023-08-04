@@ -39,7 +39,7 @@ namespace TourPackage.Models
 
             if (_context.TourDetails != null)
             {
-                var tourdetails = _context.TourDetails.FirstOrDefault(u => u.TourId == id);
+                var tourdetails = _context.TourDetails.Include(u => u.TourInclusion).Include(s => s.TourExclusion).Include(t => t.TourDate).Include(d => d.TourDestination).FirstOrDefault(u => u.TourId == id);
                 if (tourdetails != null)
                 {
                     return tourdetails;

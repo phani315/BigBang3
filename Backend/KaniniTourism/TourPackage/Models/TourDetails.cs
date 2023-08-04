@@ -46,11 +46,14 @@ namespace TourPackage.Models
         [Required(ErrorMessage = "Availability is required.")]
         public bool Availability { get; set; }
 
-        public ICollection<TourDestination> TourDestination { get; set; }
-        public ICollection<TourDate> TourDate { get; set; }
+        [Required(ErrorMessage = "Tour Image is required.")]
+        public string TourImage { get; set; }  
 
-        public ICollection<TourInclusion> TourInclusion { get; set; }
-        public ICollection<TourExclusion> TourExclusion { get; set; }
+        public ICollection<TourDestination?>? TourDestination { get; set; }
+        public ICollection<TourDate?>? TourDate { get; set; }
+
+        public ICollection<TourInclusion?>? TourInclusion { get; set; }
+        public ICollection<TourExclusion?>? TourExclusion { get; set; }
 
     }
 }

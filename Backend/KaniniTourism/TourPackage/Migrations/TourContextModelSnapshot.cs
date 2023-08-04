@@ -239,6 +239,10 @@ namespace TourPackage.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("TourImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TourName")
                         .IsRequired()
                         .HasMaxLength(100)

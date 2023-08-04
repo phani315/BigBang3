@@ -1,0 +1,39 @@
+/* Add this CSS to your stylesheet */
+.navbtns {
+    background: transparent;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .active {
+    text-decoration: underline; /* Add underline for the active button */
+  }
+  #overview{
+    margin-top: 100px;
+  }
+  .tour-header{
+    display: flex;
+    justify-content: space-around;
+  }
+  .book-now-link{
+
+    display: flex;
+    background-color: #f25c5c;
+    border: none;
+    border-radius: 8%;
+    border-radius: 4px;
+    text-align: center;
+    padding: 10px;
+    max-width: 120px;
+    max-height: 70px;
+  }
+  .book-now-link:hover {
+    box-shadow: 0 0 5px #f25c5c, 0 0 10px #f25c5c, 0 0 5px #f25c5c;
+  }
+  .book-now-link {
+    color: inherit; /* Use the parent element's color */
+    text-decoration: none; /* Remove underline */
+  }
