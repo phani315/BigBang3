@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import './TourDetails.css';
 import Navbar from '../Navbar/Navbar';
+import DatePicker from "react-datepicker"; // Import react-datepicker
+import "react-datepicker/dist/react-datepicker.css"; //
+import Modal from "react-modal"; // Import the Modal component
+
 
 
 function TourDetails() {
@@ -9,8 +13,14 @@ function TourDetails() {
   const [tourDetails, setTourDetails] = useState(null);
   const [inclusionDetails, setInclusionDetails] = useState([]);
   const [exclusionDetails, setExclusionDetails] = useState([]);
-  const [destinationDetails, setDestinationDetails] = useState([]);
+  const [selectedDestination, setSelectedDestination] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); // State for selected date
+  const [showCalendar, setShowCalendar] = useState(false); // State for modal visibility
 
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [selectedTourDate, setSelectedTourDate] = useState(null);
+  const [numTravelers, setNumTravelers] = useState(1);
+  
   useEffect(() => {
     fetch(`http://localhost:5163/api/TourDetails/${tourId}`, {
       method: "GET",
@@ -25,6 +35,8 @@ function TourDetails() {
         }
         const data = await response.json();
         setTourDetails(data);
+        console.log("fcgvhbjk")
+        console.log(tourDetails.tourDate[0].departureDate)
       })
       .catch((error) => {
         console.error("Error fetching tour details:", error);
@@ -63,7 +75,7 @@ function TourDetails() {
         });
     }
   }, [tourDetails]);
-  
+
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -71,6 +83,35 @@ function TourDetails() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const handleBookNowClick = () => {
+    setShowCalendar(true);
+  };
+  const handleDateSelect = (date) => {
+    if (selectedDate && selectedDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10)) {
+      setShowCalendar(false);
+    } else {
+      const isGreenDate = tourDetails.tourDate.some(
+        (tourDate) =>
+          date.toISOString().slice(0, 10) === new Date(tourDate.departureDate).toISOString().slice(0, 10)
+      );
+  
+      if (isGreenDate) {
+        handleGreenDateClick(date);
+        setShowCalendar(false);
+
+      } else {
+        setShowCalendar(true);
+      }
+    }
+  };
+  
+  
+  const handleGreenDateClick = (date) => {
+    setSelectedDate(date);
+    setSelectedTourDate(date); 
+    setShowBookingModal(true);
+  };
+  
 
   const fetchInclusionDetailsForDebug = (inclusions) => {
     const inclusionPromises = inclusions.map((inclusion) => {
@@ -152,96 +193,206 @@ function TourDetails() {
       };
     }
   };
-  
+
 
   return (
     <div className="tourdetailspage">
-            <div className="tourdetails-flex-container">
+      <div className="tourdetails-flex-container">
 
-      <div className="tourdetail-navbar">      <Navbar></Navbar>
-</div>
-      {tourDetails && (
-        <div className="tour-flex">
-          <div className="tourtitlebar">
-            <div className="tour-header">
-              <h1>{tourDetails.tourName}</h1>
-              <div className="booknowbtn">
-              <Link to={`/booking/${tourId}`} className="book-now-link">Book Now</Link>
-              <p className="startingfrom">starting from <br/><p className="price">{tourDetails.tourPrice}</p></p></div>
+        <div className="tourdetail-navbar">      <Navbar></Navbar>
+        </div>  {tourDetails && (
+          <div className="tour-flex">
+            <div className="tourtitlebar">
+              <div
+                className="tour-header"
+                style={{
+                  position: 'sticky',
+                  top: 0,
+                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  zIndex: 999,
+                  width: '100%', 
+
+                }}
+              >
+                <h1>{tourDetails.tourName}</h1>
+                <div className="booknowbtn">
+                  <button className= "book-now-link"onClick={handleBookNowClick}>
+                    Book Now
+                  </button>
+                  <p className="startingfrom">
+                    starting from <br />
+                    <p className="price">{tourDetails.tourPrice}</p>
+                  </p>
+                </div>
+              </div>
+              <div>
+                <nav
+                  style={{
+                    position: 'sticky',
+                    top: 0,
+                    width: '70%',
+                    backgroundColor: '#fff',
+                  }}
+                >
+                  <ul style={{ display: "flex", justifyContent: "space-around", listStyle: "none" }}>
+                    <li>
+                      <button className="navbtns" onClick={() => scrollToSection("overview")}>Overview</button>
+                    </li>
+                    <li>
+                      <button className="navbtns" onClick={() => scrollToSection("itinerary")}>Day Wise Itinerary</button>
+                    </li>
+                    <li>
+                      <button className="navbtns" onClick={() => scrollToSection("additionalInfo")}>Additional Info</button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
-            <div >
-              <nav style={{ position: "sticky", width: "70%", backgroundColor: "#fff" }}>
-                <ul style={{ display: "flex", justifyContent: "space-around", listStyle: "none" }}>
-                  <li>
-                    <button className="navbtns" onClick={() => scrollToSection("overview")}>Overview</button>
-                  </li>
-                  <li>
-                    <button className="navbtns" onClick={() => scrollToSection("itinerary")}>Day Wise Itinerary</button>
-                  </li>
-                  <li>
-                    <button className="navbtns" onClick={() => scrollToSection("additionalInfo")}>Additional Info</button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+            <section id="overview">
+              <div className="tourdescription">
+                <div> <img src={`http://127.0.0.1:10000/devstoreaccount1/tour/tour/${tourDetails.tourImage}`} alt="tourimage" /></div>
+                <div> <p className="packageoverviewtext">Package Overview </p>{tourDetails.tourDescription}</div>
+              </div>
+              <div className="inclusions-exclusions">
+                <div className="info-card">
+                  <h2>Inclusions</h2>
+                  <ul>
+                    {inclusionDetails.length > 0 ? (
+                      inclusionDetails.map((inclusion, index) => (
+                        <li key={index}>{inclusion}</li>
+                      ))
+                    ) : (
+                      <li>Loading inclusion details...</li>
+                    )}
+                  </ul>
+                </div>
+                <div className="info-card">
+                  <h2>Exclusions</h2>
+                  <ul>
+                    {exclusionDetails.length > 0 ? (
+                      exclusionDetails.map((exclusion, index) => (
+                        <li key={index}>{exclusion}</li>
+                      ))
+                    ) : (
+                      <li>Loading exclusion details...</li>
+                    )}
+                  </ul>
+                </div>
+              </div></section>
+            <section id="itinerary">
+              <h2>Day Wise Itinerary</h2>
+              {tourDetails && tourDetails.tourDestination.length > 0 ? (
+                tourDetails.tourDestination.map((destination, index) => (
+                  <div key={index} className="itinerary-day">
+                    <div>        <h3>Day {index + 1}</h3>
+                    </div>
+                    <div className="destination-details">
+                      <div>
+                        <img src={`http://127.0.0.1:10000/devstoreaccount1/tour/tour/${destination.destinationImage}`} alt="df"></img>
+                        <p>{destination.destinationName}</p>
+                        <p>{destination.country}</p>
+                        <p>{destination.city}</p>
+                      </div>
+                      <div className="destination-activities">
+                        <div className="activity-types">     <p>Activity :</p> <p>{destination.activityName} </p>
+                        </div>
+
+                        <div className="activity-types">     <p>Activity Description :</p>            <p>{destination.destinationActivity}</p></div>
+                        <div className="activity-types">         <p>Event Time :</p>            <p>{destination.eventTime}</p></div>
+                        <div className="activity-types">     <p>Event Type :</p>            <p>{destination.activityType}</p></div>
+                      </div>
+
+
+                    </div>
+                    {/* Render more details about the destination here */}
+                  </div>
+                ))
+              ) : (
+                <p>No itinerary details available.</p>
+              )}
+            </section>
+
+            <section id="additionalInfo">
+              <div className="additional-info-header">
+                <h2>Additional Info</h2>
+                <div className="destination-links">
+                  {tourDetails.tourDestination.map((destination, index) => (
+                    <button
+                      key={index}
+                      className={`destination-link ${selectedDestination === index ? 'active' : ''
+                        }`}
+                      onClick={() => setSelectedDestination(index)}
+                    >
+                      {destination.destinationName}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {selectedDestination !== null && (
+                <div className="spot-description">
+                  {tourDetails.tourDestination[selectedDestination].spotDescription}
+                </div>
+              )}
+            </section>
+
+
+
           </div>
-          <section id="overview">
-            <div className="tourdescription">
-           <div> <img src={tourDetails.tourImage} alt="tourimage" /></div>
-           <div> <p className="packageoverviewtext">Package Overview </p>{tourDetails.tourDescription}</div>
-            </div>
-          <div className="inclusions-exclusions">
-            <div className="info-card">
-              <h2>Inclusions</h2>
-              <ul>
-                {inclusionDetails.length > 0 ? (
-                  inclusionDetails.map((inclusion, index) => (
-                    <li key={index}>{inclusion}</li>
-                  ))
-                ) : (
-                  <li>Loading inclusion details...</li>
-                )}
-              </ul>
-            </div>
-            <div className="info-card">
-              <h2>Exclusions</h2>
-              <ul>
-                {exclusionDetails.length > 0 ? (
-                  exclusionDetails.map((exclusion, index) => (
-                    <li key={index}>{exclusion}</li>
-                  ))
-                ) : (
-                  <li>Loading exclusion details...</li>
-                )}
-              </ul>
-            </div>
-          </div></section>
-          <section id="itinerary">
-  <h2>Day Wise Itinerary</h2>
-  {tourDetails && tourDetails.tourDestination.length > 0 ? (
-    tourDetails.tourDestination.map((destination, index) => (
-      <div key={index} className="itinerary-day">
-        <h3>Day {index + 1}</h3>
-        <p>{destination.destinationName}</p>
-        <p>{destination.country}</p>
-        <p>{destination.city}</p>
+        )}
 
-        <p>{destination.spotDescription}</p>
+{showCalendar && (
+  <div className="calendar-modal">
+
+    <DatePicker
+    
+      selected={selectedDate}
+      onChange={handleDateSelect}
+      inline // Display calendar as inline modal
+      // Customize how to mark the available tour dates
+      dayClassName={(date) =>
+        tourDetails.tourDate.some(
+          (tourDate) =>
+            date.toISOString().slice(0, 10) === new Date(tourDate.departureDate).toISOString().slice(0,10)
+        )
+          ? "green-day"
+          :  undefined
+      }
+    />
+            <span className="close-icon" onClick={() => setShowCalendar(false)}>X</span>
+
+  </div>
+)}
+{showBookingModal && (
+  <Modal
+    isOpen={showBookingModal}
+    onRequestClose={() => setShowBookingModal(false)}
+    className="booking-modal"
+  >
+        <span className="close-icon" onClick={() => setShowBookingModal(false)}>X</span>
+
+    <h2>Book Tour</h2>
+    <p>Tour: {tourDetails.tourName}</p>
+    <p>Date: {selectedTourDate && selectedTourDate.toDateString()}</p>
+    <label htmlFor="numTravelers">Number of Travelers:</label>
+    <input
+      type="number"
+      id="numTravelers"
+      value={numTravelers}
+      onChange={(e) => setNumTravelers(e.target.value)}
+    />
 
 
-        {/* Render more details about the destination here */}
+  <Link className= "book-now-link"
+    to={`/booking/${tourId}?date=${encodeURIComponent(selectedTourDate.toISOString())}&travelers=${numTravelers}`}
+  >
+    Proceed to Book
+  </Link>
+
+ </Modal>
+)}
+
+
       </div>
-    ))
-  ) : (
-    <p>No itinerary details available.</p>
-  )}
-</section>
-
-          <section id="additionalInfo">
-            {/* Render additional info content */}
-          </section>        </div>
-      )}
-    </div>
     </div>
   );
 }

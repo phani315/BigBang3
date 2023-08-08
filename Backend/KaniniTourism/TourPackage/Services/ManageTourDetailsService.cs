@@ -3,6 +3,7 @@ using TourPackage.Interfaces;
 using TourPackage.Models;
 using TourPackage.Models.DTO;
 using TourPackage.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace TourPackage.Services
 {
@@ -21,7 +22,7 @@ namespace TourPackage.Services
             
             var tourdetails = await _tourdetailsRepo.Get(updateBookedNoOfSeats.TourId);
            
-            if (tourdetails == null)
+            if (tourdetails != null)
             {
                 if (tourdetails.MaxCapacity < tourdetails.BookedNoOfSeats + updateBookedNoOfSeats.TravellerBookedseats)
                 {
@@ -34,7 +35,8 @@ namespace TourPackage.Services
                     {
                         tourdetails.Availability = false;
                     }
-                    return tourdetails;
+                    var vsdgd = await _tourdetailsRepo.Update(tourdetails);
+                    return vsdgd;
                 }
             }
             else

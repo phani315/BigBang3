@@ -3,8 +3,7 @@ using TourPackage.Models;
 using TourPackage.Models.Context;
 using TourPackage.Interfaces;
 using TourPackage.Models;
-
-
+using TourPackage.Services;
 
 namespace TourPackage
 {
@@ -41,6 +40,7 @@ namespace TourPackage
             builder.Services.AddScoped<IRepo<TourExclusion, int>, TourExclusionRepo>();
             builder.Services.AddScoped<IRepo<TourInclusion, int>, TourInclusionRepo>();
             builder.Services.AddScoped<IRepo<TourDate, int>,TourDatesRepo>();
+            builder.Services.AddScoped<IManageTourDetails, ManageTourDetailsService>();
 
 
             var app = builder.Build();

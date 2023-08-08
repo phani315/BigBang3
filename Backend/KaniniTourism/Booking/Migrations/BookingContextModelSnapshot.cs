@@ -34,9 +34,34 @@ namespace BookingService.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("BookingStatus")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SpecialRequests")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("TourId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TravelAgentId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")

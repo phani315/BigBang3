@@ -15,7 +15,6 @@ namespace LoginandSignup.Models
         [StringLength(50, ErrorMessage = "Username cannot exceed 50 characters.")]
         public string? Username { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
         [StringLength(100, ErrorMessage = "Email cannot exceed 100 characters.")]
         public string? Email { get; set; }

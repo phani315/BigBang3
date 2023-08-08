@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TourPackage.Models.Context;
 using TourPackage.Interfaces;
 using TourPackage.Exceptions;
+using System.Diagnostics;
 
 namespace TourPackage.Models
 {
@@ -85,6 +86,7 @@ namespace TourPackage.Models
             }
 
             await _context.SaveChangesAsync();
+            Debug.WriteLine(tourdetails);
             return tourdetails;
         }
 

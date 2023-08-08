@@ -47,7 +47,7 @@ namespace TourPackage.Models
         public bool Availability { get; set; }
 
         [Required(ErrorMessage = "Tour Image is required.")]
-        public string TourImage { get; set; }  
+        public string? TourImage { get; set; }  
 
         public ICollection<TourDestination?>? TourDestination { get; set; }
         public ICollection<TourDate?>? TourDate { get; set; }
